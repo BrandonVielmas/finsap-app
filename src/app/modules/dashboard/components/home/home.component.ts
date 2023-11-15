@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
+import { ExpensesService } from 'src/app/services/expenses.service';
 import { IncomeService } from 'src/app/services/income.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,10 +11,18 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class HomeComponent  implements OnInit {
   @ViewChild(IonModal) modal: any;
+  @ViewChild(IonModal) modalAggGasto: any;
 
   public user: any;
+  public expenses: any[] | undefined;
 
-  constructor(private _userService: UserService, private _incomeService: IncomeService) { }
+
+  public descripcionGasto: string = "";
+  public montoGasto: any;
+
+  public isModeAddgastoOpen = false;
+
+  constructor(private _userService: UserService, private _incomeService: IncomeService, private _expensesService: ExpensesService) { }
 
   ngOnInit() {
 
@@ -24,6 +33,11 @@ export class HomeComponent  implements OnInit {
   private getInfoUser() {
     this._userService.getUserAccount(1).subscribe(res => {
       this.user = res;
+      if(res) {
+        this._expensesService.getExpensesByUser(1).subscribe(data => {
+          this.expenses = data;
+        });
+      }
     })
   }
 
@@ -46,6 +60,37 @@ export class HomeComponent  implements OnInit {
     }
     
   }
+
+  closeModalAddGasto() {
+    this.isModeAddgastoOpen = false;
+  }
+
+  openModalAddGasto() {
+    this.isModeAddgastoOpen = true;
+  }
+
+  confirmModalAddGasto() {
+
+    const expense = {
+      id: 0,
+      userId: this.user.userId,
+      amountSpent: this.montoGasto,
+      expenseDescription: this.descripcionGasto,
+      createDate: new Date(),
+      updateDate: new Date()
+    }
+
+    this._expensesService.insertExpenseByUser(expense).subscribe(res => {
+      if(res) {
+        this.closeModalAddGasto()
+        this.getInfoUser()
+        this.montoGasto = null;
+        this.descripcionGasto = '';
+      }
+    })
+
+  }
+
 
   // onWillDismiss(e: any) {
   //   let ingreso = parseFloat(e.target.value);

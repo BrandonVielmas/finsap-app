@@ -9,7 +9,7 @@
 <ion-content *ngIf="user" class="ion-padding">
   <h1>{{user.name}} {{user.lastName}}</h1>
 
-  <ion-card id="open-custom-dialog" color="primary" (click)="handleCard()">
+  <ion-card id="agg-ingreso" color="primary" (click)="handleCard()">
     
     <ion-card-header>
       <ion-card-title>Dinero disponible</ion-card-title>
@@ -25,7 +25,7 @@
             offset-md="4"
             offset-lg="2"
           >
-            <h2 style="padding-left: 15px;">{{user.accountBalance | currency:'MXN':'symbol':'1.2-2'}}</h2>
+            <h1 style="padding-left: 15px;">{{user.accountBalance | currency:'MXN':'symbol':'1.2-2'}}</h1>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -34,7 +34,7 @@
 
   </ion-card>
 
-  <ion-modal #modal trigger="open-custom-dialog">
+  <ion-modal #modal trigger="agg-ingreso">
     <ng-template>
       
       <ion-header>
@@ -61,43 +61,83 @@
         </ion-item>
       </ion-content>
 
-      <!-- <ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-list *ngIf="expenses">
+    <ion-list-header color="success">
+      <ion-label>Gastos</ion-label>
+      <ion-button color="danger" (click)="openModalAddGasto()">Agg gasto</ion-button>
+    </ion-list-header>
+    
+    <ion-item *ngFor="let expense of expenses">
+      <ion-label>
+
+        <ion-grid>
+          
+          <ion-row>
+            <ion-col>
+              <h2>{{ expense.expenseDescription }}</h2>
+            </ion-col>
+            <ion-col>
+              <p>{{ expense.createDate | date:'yyyy-MM-dd' }}</p>
+              <!-- <p>{{ expense.createDate | date:'yyyy-MM-dd HH:mm:ss-SS' }}</p> -->
+            </ion-col>
+          </ion-row>
+        
+          <ion-row>
+            <ion-col>
+              <h3>{{ expense.amountSpent | currency:'MXN':'symbol':'1.2-2' }}</h3>
+            </ion-col>
+          </ion-row>
+        
+        </ion-grid>
+        
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-modal [isOpen]="isModeAddgastoOpen" #modalAggGasto>
+    <ng-template>
+      
+      <ion-header>
         <ion-toolbar>
-          <ion-title>Hola</ion-title>
+          <ion-buttons slot="start">
+            <ion-button (click)="closeModalAddGasto()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Agregar gasto</ion-title>
           <ion-buttons slot="end">
-            <ion-button color="light" (click)="modal.dismiss()">Close</ion-button>
+            <ion-button [strong]="true" (click)="confirmModalAddGasto()">Confirm</ion-button>
           </ion-buttons>
         </ion-toolbar>
-      </ion-content> -->
+      </ion-header>
+
+      <ion-content class="ion-padding">
+
+        <ion-item>
+          <ion-input
+            label="Ingresa tu gasto"
+            labelPlacement="stacked"
+            type="number"
+            placeholder="Tu gasto ejm. 525.45"
+            [(ngModel)]="montoGasto"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Descripcion gasto"
+            labelPlacement="stacked"
+            type="text"
+            placeholder="Mandado"
+            [(ngModel)]="descripcionGasto"
+          ></ion-input>
+        </ion-item>
+
+      </ion-content>
 
     </ng-template>
   </ion-modal>
 
 </ion-content>
-
-<!-- <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="cancel()">Cancel</ion-button>
-        </ion-buttons>
-        <ion-title>Welcome</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-item>
-        <ion-input
-          label="Enter your name"
-          labelPlacement="stacked"
-          type="text"
-          placeholder="Your name"
-          [(ngModel)]="name"
-        ></ion-input>
-      </ion-item>
-    </ion-content>
-  </ng-template>
-</ion-modal> -->
