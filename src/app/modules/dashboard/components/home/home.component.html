@@ -6,14 +6,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <h1>Brandon Vielmas</h1>
+<ion-content *ngIf="user" class="ion-padding">
+  <h1>{{user.name}} {{user.lastName}}</h1>
 
   <ion-card color="primary">
     
     <ion-card-header>
       <ion-card-title>Dinero disponible</ion-card-title>
-      <ion-card-subtitle>Finsap</ion-card-subtitle>
+      <ion-card-subtitle>{{user.userName}}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
@@ -25,7 +25,7 @@
             offset-md="4"
             offset-lg="2"
           >
-            <h2 style="padding-left: 15px;">$5556.45</h2>
+            <h2 style="padding-left: 15px;">{{user.accountBalance | currency:'MXN':'symbol':'1.2-2'}}</h2>
           </ion-col>
         </ion-row>
       </ion-grid>
