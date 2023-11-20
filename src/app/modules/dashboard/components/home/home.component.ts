@@ -15,6 +15,10 @@ export class HomeComponent  implements OnInit {
 
   public user: any;
   public expenses: any[] | undefined;
+  public expensesAux: any[] | undefined;
+  public verFiltros: boolean = false;
+
+  public fechaFiltroFechas: any;
 
 
   public descripcionGasto: string = "";
@@ -36,6 +40,7 @@ export class HomeComponent  implements OnInit {
       if(res) {
         this._expensesService.getExpensesByUser(1).subscribe(data => {
           this.expenses = data;
+          this.expensesAux = data;
         });
       }
     })
@@ -106,6 +111,31 @@ export class HomeComponent  implements OnInit {
         this.getInfoUser()
       }
     })
+  }
+
+  public onChangeInputDate(e: any) {
+
+    this.expenses = this.expensesAux
+    
+    const fechaSeleccionadaDate = new Date(e.detail.value)
+    const year = fechaSeleccionadaDate.getFullYear();
+    const month = String(fechaSeleccionadaDate.getMonth() + 1).padStart(2, '0');
+    const day = String(fechaSeleccionadaDate.getDate()).padStart(2, '0');
+    const fechaFormateada = `${year}-${month}-${day}`;
+
+    this.aplicarFiltroGastos(fechaFormateada)
+
+  }
+
+  private aplicarFiltroGastos(fecha: any) {
+    this.expenses = this.expenses?.filter(f => {
+      return f.createDate === fecha
+    });
+  }
+
+  public handleToggleFiltros(event: any) {
+    this.verFiltros = event.detail.checked
+    if(!this.verFiltros) { this.expenses = this.expensesAux; }
   }
 
 

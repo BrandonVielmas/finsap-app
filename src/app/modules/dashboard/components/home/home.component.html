@@ -64,9 +64,19 @@
     </ng-template>
   </ion-modal>
 
+        <ion-datetime
+        *ngIf="verFiltros"
+        [(ngModel)]="fechaFiltroFechas"
+  presentation="date"
+  (ionChange)="onChangeInputDate($event)"
+></ion-datetime>
+
   <ion-list *ngIf="expenses">
     <ion-list-header color="success">
       <ion-label>Gastos</ion-label>
+      <ion-toggle (ionChange)="handleToggleFiltros($event)">
+        Filtros
+      </ion-toggle>
       <ion-button color="danger" (click)="openModalAddGasto()">Agg gasto</ion-button>
     </ion-list-header>
     
