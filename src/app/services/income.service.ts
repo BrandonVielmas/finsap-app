@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class IncomeService {
 
-  private apiIncome = "http://localhost:8080/api/v1/"
+  private apiIncome = "http://localhost:3000/api/v1/"
 
   constructor(private _http: HttpClient) { }
 
@@ -19,7 +19,11 @@ export class IncomeService {
       })
     }
 
-    return this._http.post<any>(`${this.apiIncome}income/${userId}`, ingreso, httpOptions)
+    const body = {
+      incomeEntered: ingreso
+    }
+
+    return this._http.post<any>(`${this.apiIncome}income/${userId}`, JSON.stringify(body), httpOptions)
 
   }
 

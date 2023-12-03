@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
+import { delay } from 'rxjs';
 import { ExpensesService } from 'src/app/services/expenses.service';
 import { IncomeService } from 'src/app/services/income.service';
 import { UserService } from 'src/app/services/user.service';
@@ -77,18 +78,14 @@ export class HomeComponent  implements OnInit {
   confirmModalAddGasto() {
 
     const expense = {
-      id: 0,
       userId: this.user.userId,
       amountSpent: this.montoGasto,
       expenseDescription: this.descripcionGasto,
-      createDate: new Date(),
-      updateDate: new Date()
     }
-
-    this._expensesService.insertExpenseByUser(expense).subscribe(res => {
+    this._expensesService.insertExpenseByUser(expense).subscribe(async res => {
       if(res) {
-        this.closeModalAddGasto()
         this.getInfoUser()
+        this.closeModalAddGasto()
         this.montoGasto = null;
         this.descripcionGasto = '';
       }

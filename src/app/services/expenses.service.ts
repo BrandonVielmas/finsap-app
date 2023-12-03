@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ExpensesService {
 
-  private apiExpenses = "http://localhost:8080/api/v1/";
+  private apiExpenses = "http://localhost:3000/api/v1/";
 
   constructor(private _http: HttpClient) { }
 
@@ -25,7 +25,7 @@ export class ExpensesService {
       })
     }
 
-    return this._http.post<any>(`${this.apiExpenses}expenses`, expense, httpOptions)
+    return this._http.post<any>(`${this.apiExpenses}expenses`, JSON.stringify(expense), httpOptions)
 
   }
 
