@@ -36,7 +36,7 @@ export class HomeComponent  implements OnInit {
   }
 
   private getInfoUser() {
-    this._userService.getUserAccount(1).subscribe(res => {
+    this._userService.getUserAccount(1, "").subscribe(res => {
       this.user = res;
       if(res) {
         this._expensesService.getExpensesByUser(1).subscribe(data => {

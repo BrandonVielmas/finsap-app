@@ -1,0 +1,18 @@
+ion-modal {
+    &.center {
+      --width: calc(100% - 2em);
+      align-items: center;
+      --height: auto;
+      .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+      }
+    }
+  }
+
+  #chart {
+    width: 400px;
+    max-width: 400px;
+    margin: 35px auto;
+  }

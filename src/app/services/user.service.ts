@@ -13,8 +13,8 @@ export class UserService {
     private _http: HttpClient
   ) { }
 
-  public getUserAccount(userId: number): Observable<any> {
-    return this._http.get<any>(`${this.apiUser}user-account/${userId}`);
+  public getUserAccount(userId: number, fechas: any): Observable<any> {
+    return this._http.post<any>(`${this.apiUser}user-account/${userId}`, fechas);
   }
 
 }

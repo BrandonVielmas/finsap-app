@@ -1,0 +1,123 @@
+<ion-content>
+  
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-text color="danger">
+          <h1><strong><i>FINSAPP</i></strong></h1>
+        </ion-text>
+      </ion-col>
+      <ion-col style="margin-top: 20px;" size="auto">
+        <ion-icon style="color: red" size="large" name="person-circle-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-card color="danger" *ngIf="infoUser">
+
+    <ion-card-header>
+      <ion-card-subtitle>{{infoUser.userName}}</ion-card-subtitle>
+      <ion-card-title>Current Balance</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      
+      <ion-grid>
+
+        <ion-row>
+
+          <ion-col>
+            <h2>{{ infoUser.accountBalance | currency:'MXN':'symbol':'1.2-2' }}</h2>
+          </ion-col>
+
+          <ion-col style="margin-top: 5px;">
+            <p><small>Actualizado a las 12:45 am</small></p>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-grid>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <div class="ion-padding">
+
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <ion-text color="danger">
+            <h1><strong>Grafico de gastos</strong></h1>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div id="chart"></div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="infoGraficas">
+        <ion-col>
+          <ion-text>
+            <p>Gasto: {{ infoGraficas.totalGasto | currency:'MXN':'symbol':'1.2-2'  }}</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            <ion-item id="open-modal-inicio">
+              <ion-label>Fecha inicio</ion-label>
+              <ion-note slot="end">{{fechaInicio | date}}</ion-note>
+            </ion-item>
+            <ion-modal trigger="open-modal-inicio" [cssClass]="'center'">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="fechaInicio"
+                  size="cover"
+                  showDefaultButtons="true"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            <ion-item id="open-modal-fin">
+              <ion-label>Fecha fin</ion-label>
+              <ion-note slot="end">{{fechaFin | date}}</ion-note>
+            </ion-item>
+            <ion-modal trigger="open-modal-fin" [cssClass]="'center'">
+              <ng-template>
+                <ion-datetime
+                  presentation="date"
+                  [(ngModel)]="fechaFin"
+                  size="cover"
+                  showDefaultButtons="true"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="traerInfoFiltrada()" color="danger" expand="block">Aplicar filtros</ion-button>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+
+  </div>
+
+</ion-content>
